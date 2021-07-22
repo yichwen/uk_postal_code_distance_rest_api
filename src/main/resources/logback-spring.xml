@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <!--Spring Application Name-->
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="springBoot"/>
+    <!--Log File Path-->
+    <property name="LOG_FILE_PATH" value="./logs"/>
+
+    <!--Log API Request-->
+    <appender name="API_REQUEST_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <!--configure as default file log pattern-->
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--configure log file name pattern-->
+            <fileNamePattern>${LOG_FILE_PATH}/request/${APP_NAME}-%d{yyyy-MM-dd}-%i.log</fileNamePattern>
+            <!--configure log file max file size，create new file if exceed, default is 10MB-->
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+            <!--configure log file retention period, default 30 days -->
+            <maxHistory>${LOG_FILE_MAX_HISTORY:-30}</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
+    <logger name="io.yichwen.filter.LogRequestFilter" level="INFO">
+        <appender-ref ref="API_REQUEST_FILE"/>
+    </logger>
+
+</configuration>

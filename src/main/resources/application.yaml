@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: uk-postalcode-distance-app
+
+  datasource:
+    url: jdbc:mysql://192.168.99.100:3306/uk_postalcode?characterEncoding=utf-8&useSSL=false
+    username: root
+    password: root
+
+  jpa:
+    open-in-view: false
+
+swagger:
+  api-base-package: io.yichwen.controller
+  enable-security: true
+  title: "UK Postal Code & Distance APIs"
+  version: 1.0
+  contact-name: yichwen
+  contact-url: https://github.com/yichwen
+  contact-email: yichwenlim@gmail.com
+
+log:
+  request: /distance
