@@ -3,6 +3,7 @@ package io.yichwen.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.UriComponents;
@@ -25,6 +26,7 @@ import java.util.Set;
  */
 @Component
 @Slf4j
+@Order(0)
 public class LogRequestFilter extends OncePerRequestFilter {
 
     @Value("${log.request:#{null}}")
@@ -49,6 +51,7 @@ public class LogRequestFilter extends OncePerRequestFilter {
                 }
             }
         }
+
         chain.doFilter(request, response);
 
         if (logMap != null) {

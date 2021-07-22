@@ -21,6 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests()
                     .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/**/v2/api-docs").permitAll()
                     .anyRequest().authenticated()
@@ -29,7 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .csrf().disable();
+                    .csrf().disable()
+                    .cors();
     }
 
     @Bean
