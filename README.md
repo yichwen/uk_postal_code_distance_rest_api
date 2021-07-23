@@ -2,6 +2,7 @@
 
 This project provides the following APIs:
 
+- `GET /postcode/{postcode}` - to get latitude and longitude by the given UK Postal Code
 - `PUT /postcode/{postcode}` - to update latitude and longitude by the given UK Postal Code
 - `GET /distance` - to get distance by the given UK Postal Codes
 
