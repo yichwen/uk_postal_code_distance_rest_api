@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,4 +62,31 @@ public class PostalCodeControllerTest {
                 .andExpect(jsonPath("$.latitude", Matchers.is(latitude)))
                 .andExpect(jsonPath("$.longitude", Matchers.is(longitude)));
     }
+
+
+    @Test
+    @DisplayName("To test get latitude and longitude by the given postal code")
+    public void testToGetLatitudeLongitudeByTheGivenPostalCode() throws Exception {
+
+        String postcode = "XX99 11GX";
+        double latitude = 10.29722;
+        double longitude = 20.90271;
+
+        Location location = Location.builder()
+                .longitude(longitude)
+                .latitude(latitude)
+                .postalCode(postcode)
+                .build();
+
+        Mockito.when(postalCodeService.getPostalCode(postcode)).thenReturn(location);
+
+        mockMvc.perform(get("/postcode/" + postcode)
+                .with(httpBasic("user", "user"))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.postalCode", Matchers.is(postcode)))
+                .andExpect(jsonPath("$.latitude", Matchers.is(latitude)))
+                .andExpect(jsonPath("$.longitude", Matchers.is(longitude)));
+    }
+
 }

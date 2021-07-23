@@ -18,4 +18,9 @@ public class PostalCodeController {
         return postalCodeService.updatePostalCode(postcode, coordinate);
     }
 
+    @GetMapping("/{postcode}")
+    public Location getPostcodeCoordinate(@PathVariable String postcode) {
+        return postalCodeService.getPostalCode(postcode);
+    }
+
 }

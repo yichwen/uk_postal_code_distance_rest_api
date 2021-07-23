@@ -19,16 +19,26 @@ public class PostalCodeServiceImpl implements PostalCodeService {
 
     @Override
     public Location updatePostalCode(String postcode, Coordinate coordinate) {
-        PostalCodeLatitudeLongitude postcodeLatLng = postalCodeLatitudeLongitudeRepository.findByPostcode(postcode);
-        if (postcodeLatLng == null) {
-            throw new PostalCodeNotFoundException(postcode);
-        }
+        PostalCodeLatitudeLongitude postcodeLatLng = getPostalCodeLatitudeLongitudeByPostcode(postcode);
 
         postcodeLatLng.setLatitude(coordinate.getLatitude());
         postcodeLatLng.setLongitude(coordinate.getLongitude());
 
         postcodeLatLng = postalCodeLatitudeLongitudeRepository.save(postcodeLatLng);
         return postalCodeLatitudeLongitudeToLocationConverter.convert(postcodeLatLng);
+    }
+
+    @Override
+    public Location getPostalCode(String postcode) {
+        return postalCodeLatitudeLongitudeToLocationConverter.convert(getPostalCodeLatitudeLongitudeByPostcode(postcode));
+    }
+
+    private PostalCodeLatitudeLongitude getPostalCodeLatitudeLongitudeByPostcode(String postcode) {
+        PostalCodeLatitudeLongitude postcodeLatLng = postalCodeLatitudeLongitudeRepository.findByPostcode(postcode);
+        if (postcodeLatLng == null) {
+            throw new PostalCodeNotFoundException(postcode);
+        }
+        return postcodeLatLng;
     }
 
 }

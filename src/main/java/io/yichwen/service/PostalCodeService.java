@@ -5,4 +5,5 @@ import io.yichwen.dto.Location;
 
 public interface PostalCodeService {
     Location updatePostalCode(String postcode, Coordinate coordinate);
+    Location getPostalCode(String postcode);
 }
